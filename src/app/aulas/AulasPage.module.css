@@ -1,0 +1,514 @@
+/* Global Container */
+.container {
+  max-width: 80rem; /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  /* space-y-6: Tailwind's space-y utility is applied to direct children.
+     This can be achieved with a general child selector or by ensuring parent has display: flex and flex-direction: column with gap.
+     For simplicity, I'll add margin-bottom to sections, or this can be handled by wrapping elements if needed.
+     Alternatively, if using PostCSS with tailwind nesting, these could be kept.
+     For now, I will assume direct children will handle their own spacing or use a wrapper.
+  */
+}
+
+/* Common Card Style */
+.card {
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+  border-width: 1px;
+  padding: 1.5rem; /* p-6 */
+}
+.cardLight {
+  background-color: white;
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+.cardDark {
+  background-color: #1f2937; /* bg-gray-800 */
+  border-color: #374151; /* border-gray-700 */
+}
+
+/* Header Section */
+.header {
+  /* Extends card */
+}
+.headerTitle {
+  font-size: 1.875rem; /* text-3xl */
+  line-height: 2.25rem;
+  font-weight: 700; /* font-bold */
+}
+.headerTitleLight {
+  color: #111827; /* text-gray-900 */
+}
+.headerTitleDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+.headerSubtitle {
+  margin-top: 0.5rem; /* mt-2 */
+}
+.headerSubtitleLight {
+  color: #4b5563; /* text-gray-600 */
+}
+.headerSubtitleDark {
+  color: #d1d5db; /* text-gray-300 */
+}
+
+/* Search Input */
+.searchContainer {
+  position: relative;
+  max-width: 28rem; /* max-w-md */
+}
+.searchIcon {
+  position: absolute;
+  left: 0.75rem; /* left-3 */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+  color: #9ca3af; /* text-gray-400 */
+}
+.searchInput {
+  width: 100%;
+  padding-left: 2.5rem; /* pl-10 */
+  padding-right: 1rem; /* pr-4 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
+  border-width: 1px;
+  border-radius: 0.5rem; /* rounded-lg */
+}
+.searchInput:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-color: #6366f1; /* focus:ring-primary-500 */
+  border-color: transparent; /* focus:border-transparent */
+}
+.searchInputLight {
+  background-color: white;
+  border-color: #d1d5db; /* border-gray-300 */
+  color: #111827; /* text-gray-900 */
+}
+.searchInputLight::placeholder {
+  color: #6b7280; /* placeholder-gray-500 */
+}
+.searchInputDark {
+  background-color: #374151; /* bg-gray-700 */
+  border-color: #4b5563; /* border-gray-600 */
+  color: #f3f4f6; /* text-gray-100 */
+}
+.searchInputDark::placeholder {
+  color: #9ca3af; /* placeholder-gray-400 */
+}
+
+/* Filter Section */
+.filterSection {
+  /* Extends card */
+}
+.filterHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem; /* mb-4 */
+}
+.filterIcon {
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+  margin-right: 0.5rem; /* space-x-2 */
+}
+.filterIconLight {
+  color: #4b5563; /* text-gray-600 */
+}
+.filterIconDark {
+  color: #9ca3af; /* text-gray-400 */
+}
+.filterTitle {
+  font-weight: 600; /* font-semibold */
+}
+.filterTitleLight {
+  color: #111827; /* text-gray-900 */
+}
+.filterTitleDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+.filterButtonsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem; /* gap-3 */
+}
+.filterButton {
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  border-radius: 0.5rem; /* rounded-lg */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.filterButtonActive {
+  background-color: #4f46e5; /* bg-primary-600 */
+  color: white;
+}
+.filterButtonInactiveLight {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  color: #374151; /* text-gray-700 */
+}
+.filterButtonInactiveLight:hover {
+  background-color: #e5e7eb; /* hover:bg-gray-200 */
+}
+.filterButtonInactiveDark {
+  background-color: #374151; /* bg-gray-700 */
+  color: #d1d5db; /* text-gray-300 */
+}
+.filterButtonInactiveDark:hover {
+  background-color: #4b5563; /* hover:bg-gray-600 */
+}
+
+/* Aulas Grid */
+.aulasGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
+  gap: 1.5rem; /* gap-6 */
+}
+@media (min-width: 768px) { /* md: */
+  .aulasGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
+  }
+}
+@media (min-width: 1024px) { /* lg: */
+  .aulasGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* lg:grid-cols-3 */
+  }
+}
+
+/* Aula Card */
+.aulaCard {
+  /* Extends card but with different padding, so override */
+  padding: 0; /* Remove card's default p-6 */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+  border-width: 1px;
+  overflow: hidden; /* overflow-hidden */
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.aulaCard:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* hover:shadow-md */
+}
+.aulaCardLight {
+  background-color: white;
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+.aulaCardDark {
+  background-color: #1f2937; /* bg-gray-800 */
+  border-color: #374151; /* border-gray-700 */
+}
+
+.aulaThumbnail {
+  position: relative;
+  height: 12rem; /* h-48 */
+  background-image: linear-gradient(to bottom right, #3b82f6, #8b5cf6); /* from-blue-500 to-purple-600 */
+}
+.thumbnailOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thumbnailIconContainer {
+  width: 4rem; /* w-16 */
+  height: 4rem; /* h-16 */
+  background-color: rgba(255, 255, 255, 0.2); /* bg-white bg-opacity-20 */
+  border-radius: 9999px; /* rounded-full */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thumbnailIcon {
+  height: 2rem; /* h-8 */
+  width: 2rem; /* w-8 */
+  color: white;
+}
+
+.progressBarContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.25rem; /* h-1 */
+  background-color: rgba(0, 0, 0, 0.2); /* bg-black bg-opacity-20 */
+}
+.progressBar {
+  height: 100%;
+  background-color: white;
+  transition-property: width;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  width: var(--progress-width, 0%); /* Controlled by inline style --progress-width */
+}
+
+.premiumBadge {
+  position: absolute;
+  top: 0.75rem; /* top-3 */
+  right: 0.75rem; /* right-3 */
+  padding-left: 0.5rem; /* px-2 */
+  padding-right: 0.5rem;
+  padding-top: 0.25rem; /* py-1 */
+  padding-bottom: 0.25rem;
+  background-color: #f59e0b; /* bg-yellow-500 */
+  color: white;
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  font-weight: 500; /* font-medium */
+  border-radius: 9999px; /* rounded-full */
+}
+
+.aulaContent {
+  padding: 1.5rem; /* p-6 */
+}
+
+.aulaNivelBadgeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+.aulaNivelBadge {
+  padding-left: 0.5rem; /* px-2 */
+  padding-right: 0.5rem;
+  padding-top: 0.25rem; /* py-1 */
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  font-weight: 500; /* font-medium */
+  border-radius: 9999px; /* rounded-full */
+}
+.nivelInicianteLight {
+  background-color: #dcfce7; /* bg-green-100 */
+  color: #166534; /* text-green-700 */
+}
+.nivelInicianteDark {
+  background-color: #14532d; /* bg-green-900 */
+  color: #86efac; /* text-green-300 */
+}
+.nivelIntermediarioLight {
+  background-color: #dbeafe; /* bg-blue-100 */
+  color: #1e40af; /* text-blue-700 */
+}
+.nivelIntermediarioDark {
+  background-color: #1e3a8a; /* bg-blue-900 */
+  color: #93c5fd; /* text-blue-300 */
+}
+.nivelAvancadoLight {
+  background-color: #f3e8ff; /* bg-purple-100 */
+  color: #5b21b6; /* text-purple-700 */
+}
+.nivelAvancadoDark {
+  background-color: #4c1d95; /* bg-purple-900 */
+  color: #c4b5fd; /* text-purple-300 */
+}
+.nivelDefaultLight {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  color: #374151; /* text-gray-700 */
+}
+.nivelDefaultDark {
+  background-color: #374151; /* bg-gray-700 */
+  color: #d1d5db; /* text-gray-300 */
+}
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  /* space-x-1 */
+}
+.ratingContainer > *:not([hidden]) ~ *:not([hidden]) {
+  margin-left: 0.25rem;
+}
+.starIcon {
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+  color: #f59e0b; /* text-yellow-500 */
+  fill: currentColor; /* fill-current */
+}
+.ratingText {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: #4b5563; /* text-gray-600, assuming light theme default for this, adjust if needed */
+}
+.ratingTextDark { /* Add if specific dark mode for rating text is needed */
+  color: #9ca3af; /* text-gray-400 for dark theme based on other similar elements */
+}
+
+
+.aulaTitle {
+  font-weight: 600; /* font-semibold */
+  margin-bottom: 0.5rem; /* mb-2 */
+  /* line-clamp-2 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.aulaTitleLight {
+  color: #111827; /* text-gray-900 */
+}
+.aulaTitleDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+
+.aulaDescription {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  margin-bottom: 1rem; /* mb-4 */
+  /* line-clamp-2 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.aulaDescriptionLight {
+  color: #4b5563; /* text-gray-600 */
+}
+.aulaDescriptionDark {
+  color: #d1d5db; /* text-gray-300 */
+}
+
+.aulaMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  margin-bottom: 1rem; /* mb-4 */
+}
+.aulaMetaLight {
+  color: #6b7280; /* text-gray-500 */
+}
+.aulaMetaDark {
+  color: #9ca3af; /* text-gray-400 */
+}
+.metaItem {
+  display: flex;
+  align-items: center;
+}
+.metaItem > *:not([hidden]) ~ *:not([hidden]) {
+  margin-left: 0.25rem; /* space-x-1 */
+}
+.metaIcon {
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+}
+
+/* Action Button */
+.actionButton {
+  width: 100%;
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  border-radius: 0.5rem; /* rounded-lg */
+  font-weight: 500; /* font-medium */
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.actionButtonPremiumLockedLight {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  color: #6b7280; /* text-gray-500 */
+  cursor: not-allowed;
+}
+.actionButtonPremiumLockedDark {
+  background-color: #374151; /* bg-gray-700 */
+  color: #9ca3af; /* text-gray-400 */
+  cursor: not-allowed;
+}
+.actionButtonAssistidaLight {
+  background-color: #dcfce7; /* bg-green-100 */
+  color: #166534; /* text-green-700 */
+}
+.actionButtonAssistidaLight:hover {
+  background-color: #bbf7d0; /* hover:bg-green-200 */
+}
+.actionButtonAssistidaDark {
+  background-color: #14532d; /* bg-green-900 */
+  color: #86efac; /* text-green-300 */
+}
+.actionButtonAssistidaDark:hover {
+  background-color: #166534; /* hover:bg-green-800 */
+}
+.actionButtonDefault {
+  background-color: #4f46e5; /* bg-primary-600 */
+  color: white;
+}
+.actionButtonDefault:hover {
+  background-color: #4338ca; /* hover:bg-primary-700 */
+}
+
+/* Empty State */
+.emptyStateContainer {
+  text-align: center;
+  padding-top: 3rem; /* py-12 */
+  padding-bottom: 3rem;
+}
+.emptyStateIcon {
+  height: 4rem; /* h-16 */
+  width: 4rem; /* w-16 */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem; /* mb-4 */
+}
+.emptyStateIconLight {
+  color: #d1d5db; /* text-gray-400 */
+}
+.emptyStateIconDark {
+  color: #6b7280; /* text-gray-500 */
+}
+.emptyStateTitle {
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+  font-weight: 500; /* font-medium */
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+.emptyStateTitleLight {
+  color: #111827; /* text-gray-900 */
+}
+.emptyStateTitleDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+.emptyStateMessage {
+  /* No specific class for light/dark, uses parent's color or default */
+}
+.emptyStateMessageLight {
+  color: #4b5563; /* text-gray-600 */
+}
+.emptyStateMessageDark {
+  color: #d1d5db; /* text-gray-300 */
+}
+
+/* Utility classes from Tailwind that were used directly on elements */
+.spaceY6 > *:not([hidden]) ~ *:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); /* 1.5rem = 24px (space-y-6) */
+    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.flex { display: flex; }
+.flexCol { flex-direction: column; }
+.lgFlexRow { @media (min-width: 1024px) { flex-direction: row; } }
+.lgItemsCenter { @media (min-width: 1024px) { align-items: center; } }
+.lgJustifyBetween { @media (min-width: 1024px) { justify-content: space-between; } }
+.gap4 { gap: 1rem; }
+
+/* For line-clamp, using -webkit properties as they are widely supported */
+/* These are already included in .aulaTitle and .aulaDescription */
+/* .lineClamp2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+} */

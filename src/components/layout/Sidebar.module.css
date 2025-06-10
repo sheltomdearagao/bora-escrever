@@ -1,0 +1,363 @@
+/* CSS Modules file for Sidebar component */
+
+/* Sidebar Container */
+.sidebarBase {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  height: 100%;
+  width: 20rem; /* w-80 */
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05); /* shadow-lg */
+  display: flex;
+  flex-direction: column;
+  transition-property: background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+.sidebarBaseLight {
+  background-color: white;
+  border-right: 1px solid #e5e7eb; /* border-gray-200 */
+}
+.sidebarBaseDark {
+  background-color: #111827; /* bg-gray-900, example dark bg */
+  border-right: 1px solid #374151; /* border-gray-700, example dark border */
+}
+@media (min-width: 1024px) { /* lg: */
+  .sidebarBase {
+    position: relative;
+    transform: translateX(0%); /* lg:translate-x-0 */
+    box-shadow: none; /* lg:shadow-none */
+  }
+}
+
+/* Mobile Overlay */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+@media (min-width: 1024px) { /* lg: */
+  .mobileOverlay {
+    display: none;
+  }
+}
+
+/* Sidebar Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem; /* p-6 */
+  border-bottom-width: 1px;
+}
+.headerLight {
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+.headerDark {
+  border-color: #374151; /* border-gray-700 */
+}
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+}
+.logoIconBackground {
+  width: 2.5rem; /* w-10 */
+  height: 2.5rem; /* h-10 */
+  background-image: linear-gradient(to bottom right, #2563eb, #7c3aed); /* from-blue-600 to-purple-600 */
+  border-radius: 0.75rem; /* rounded-xl */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logoIconText {
+  color: white;
+  font-weight: 700; /* font-bold */
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+}
+.logoTitle {
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+  font-weight: 700; /* font-bold */
+}
+.logoTitleLight {
+  color: #111827; /* text-gray-900 */
+}
+.logoTitleDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+.logoSubtitle {
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+}
+.logoSubtitleLight {
+  color: #6b7280; /* text-gray-500 */
+}
+.logoSubtitleDark {
+  color: #9ca3af; /* text-gray-400 */
+}
+
+/* User Info Section */
+.userInfo {
+  padding: 1rem; /* p-4 */
+  border-bottom-width: 1px;
+}
+.userInfoLight {
+  border-color: #f3f4f6; /* border-gray-100 */
+}
+.userInfoDark {
+  border-color: #374151; /* border-gray-700 */
+}
+.userInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+}
+.avatar {
+  width: 3rem; /* w-12 */
+  height: 3rem; /* h-12 */
+  background-image: linear-gradient(to bottom right, #34d399, #3b82f6); /* from-green-400 to-blue-500 */
+  border-radius: 9999px; /* rounded-full */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.avatarText {
+  color: white;
+  font-weight: 600; /* font-semibold */
+}
+.userInfoTextContainer {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+.userName {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.userNameLight {
+  color: #111827; /* text-gray-900 */
+}
+.userNameDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+.userStatus {
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.userStatusLight {
+  color: #6b7280; /* text-gray-500 */
+}
+.userStatusDark {
+  color: #9ca3af; /* text-gray-400 */
+}
+
+/* Navigation Menu */
+.navMenu {
+  flex: 1 1 0%;
+  padding: 1rem; /* p-4 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* space-y-2 */
+  overflow-y: auto;
+}
+
+.menuItemLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 0.625rem; /* py-2.5 */
+  padding-bottom: 0.625rem;
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem;
+  border-radius: 0.375rem; /* rounded-lg */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+  transition-property: background-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+.menuItemLink.subItem { /* For level > 0 */
+  margin-left: 1rem; /* ml-4, but this is margin on the motion.div, so apply to link itself */
+  padding-left: 2rem; /* pl-8 original was on link, this combines margin and padding */
+}
+
+/* Light theme menu items */
+.menuItemLinkLight {
+  color: #374151; /* text-gray-700 */
+}
+.menuItemLinkLight:hover {
+  background-color: #f3f4f6; /* hover:bg-gray-100 */
+  color: #111827; /* hover:text-gray-900 */
+}
+.menuItemActiveLight {
+  background-color: #eff6ff; /* bg-blue-50 */
+  color: #1d4ed8; /* text-blue-700 */
+  /* Tailwind's border-r-2 border-blue-600 might need specific handling if not on all sides */
+  /* For simplicity, using a distinct background for active might be enough, or add border here */
+  box-shadow: inset -2px 0 0 0 #2563eb; /* Simulates border-r-2 border-blue-600 */
+}
+.menuItemIconLight {
+  color: #6b7280; /* text-gray-500 */
+}
+.menuItemIconActiveLight {
+  color: #2563eb; /* text-blue-600 */
+}
+
+/* Dark theme menu items */
+.menuItemLinkDark {
+  color: #d1d5db; /* text-gray-300 */
+}
+.menuItemLinkDark:hover {
+  background-color: #374151; /* hover:bg-gray-700 */
+  color: #f9fafb; /* hover:text-gray-100 */
+}
+.menuItemActiveDark {
+  background-color: #2b3649; /* Example: a darker blue/gray for active dark */
+  color: #60a5fa; /* Example: lighter blue for active text dark */
+  box-shadow: inset -2px 0 0 0 #3b82f6; /* Simulates border-r-2 border-blue-500 */
+}
+.menuItemIconDark {
+  color: #9ca3af; /* text-gray-400 */
+}
+.menuItemIconActiveDark {
+  color: #60a5fa; /* Example: lighter blue for active icon dark */
+}
+
+
+.menuItemContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+}
+.menuItemIcon {
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+}
+
+.badgeBase {
+  padding-left: 0.5rem; /* px-2 */
+  padding-right: 0.5rem;
+  padding-top: 0.125rem; /* py-0.5 */
+  padding-bottom: 0.125rem;
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+  font-weight: 500; /* font-medium */
+  border-radius: 9999px; /* rounded-full */
+}
+.badgeNovoLight {
+  background-color: #dcfce7; /* bg-green-100 */
+  color: #166534; /* text-green-700 */
+}
+.badgeNovoDark {
+  background-color: #166534; /* bg-green-800 or similar */
+  color: #a7f3d0; /* text-green-300 */
+}
+.badgeIALight {
+  background-color: #f3e8ff; /* bg-purple-100 */
+  color: #5b21b6; /* text-purple-700 */
+}
+.badgeIADark {
+  background-color: #5b21b6; /* bg-purple-800 or similar */
+  color: #c4b5fd; /* text-purple-300 */
+}
+
+.chevronIcon {
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+}
+.chevronIconLight {
+  color: #9ca3af; /* text-gray-400 */
+}
+.chevronIconDark {
+  color: #6b7280; /* text-gray-500 */
+}
+
+.submenuContainer {
+  overflow: hidden;
+}
+.submenu {
+  margin-top: 0.25rem; /* mt-1 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* space-y-1 */
+}
+
+
+/* Sidebar Footer */
+.footer {
+  padding: 1rem; /* p-4 */
+  border-top-width: 1px;
+}
+.footerLight {
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+.footerDark {
+  border-color: #374151; /* border-gray-700 */
+}
+.footerCard {
+  padding: 1rem; /* p-4 */
+  border-radius: 0.375rem; /* rounded-lg */
+}
+.footerCardLight {
+  /* bg-gradient-to-r from-blue-50 to-purple-50 */
+  background-image: linear-gradient(to right, #eff6ff, #f5f3ff);
+}
+.footerCardDark {
+  /* Example dark gradient or solid color */
+  background-image: linear-gradient(to right, #1e293b, #28233e); /* Darker blue/purple gradient */
+}
+.footerCardContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+}
+.footerIconContainer {
+  width: 2.5rem; /* w-10 */
+  height: 2.5rem; /* h-10 */
+  background-image: linear-gradient(to bottom right, #3b82f6, #8b5cf6); /* from-blue-500 to-purple-600 */
+  border-radius: 0.375rem; /* rounded-lg */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footerIcon {
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+  color: white;
+}
+.footerTextContainer {
+  flex: 1 1 0%;
+}
+.footerTitle {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  font-weight: 500; /* font-medium */
+}
+.footerTitleLight {
+  color: #111827; /* text-gray-900 */
+}
+.footerTitleDark {
+  color: #f3f4f6; /* text-gray-100 */
+}
+.footerSubtitle {
+  font-size: 0.75rem; /* text-xs */
+  line-height: 1rem;
+}
+.footerSubtitleLight {
+  color: #6b7280; /* text-gray-500 */
+}
+.footerSubtitleDark {
+  color: #9ca3af; /* text-gray-400 */
+}

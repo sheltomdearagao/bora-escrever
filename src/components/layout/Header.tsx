@@ -1,10 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link'; // Import Link
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Bell, Search, User, Settings, LogOut, ChevronDown } from 'lucide-react';
+
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useTheme } from '@/contexts/ThemeContext';
+
+import styles from './Header.module.css';
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -25,38 +29,53 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
 
   const unreadCount = notifications.filter((n) => n.unread).length;
 
+  const iconButtonClass = theme === 'dark' ? styles.iconButtonDark : styles.iconButtonLight;
+  const mobileMenuButtonClass = theme === 'dark' ? styles.mobileMenuButtonDark : styles.mobileMenuButtonLight;
+  const searchInputClass = theme === 'dark' ? styles.searchInputDark : styles.searchInputLight;
+  const dropdownPanelClass = theme === 'dark' ? styles.dropdownPanelDark : styles.dropdownPanelLight;
+  const dropdownHeaderClass = theme === 'dark' ? styles.dropdownHeaderDark : styles.dropdownHeaderLight;
+  const dropdownTitleClass = theme === 'dark' ? styles.dropdownTitleDark : styles.dropdownTitleLight;
+  const notificationItemHoverClass = theme === 'dark' ? styles.notificationItemDark : styles.notificationItemLight;
+  const notificationTitleClass = theme === 'dark' ? styles.notificationTitleDark : styles.notificationTitleLight;
+  const notificationTimeClass = theme === 'dark' ? styles.notificationTimeDark : styles.notificationTimeLight;
+  const notificationItemUnreadClass = theme === 'dark' ? styles.notificationItemUnreadDark : styles.notificationItemUnreadLight;
+  const dropdownFooterClass = theme === 'dark' ? styles.dropdownFooterDark : styles.dropdownFooterLight;
+  const viewAllButtonClass = theme === 'dark' ? styles.viewAllButtonDark : styles.viewAllButtonLight;
+  const profileNameClass = theme === 'dark' ? styles.profileNameDark : styles.profileNameLight;
+  const profileDropdownUserInfoClass = theme === 'dark' ? styles.profileDropdownUserInfoDark : styles.profileDropdownUserInfoLight;
+  const profileDropdownNameClass = theme === 'dark' ? styles.profileDropdownNameDark : styles.profileDropdownNameLight;
+  const profileDropdownEmailClass = theme === 'dark' ? styles.profileDropdownEmailDark : styles.profileDropdownEmailLight;
+  const profileDropdownLinkClass = theme === 'dark' ? styles.profileDropdownLinkDark : styles.profileDropdownLinkLight;
+  const profileDropdownLogoutSectionClass = theme === 'dark' ? styles.profileDropdownLogoutSectionDark : styles.profileDropdownLogoutSectionLight;
+  const logoutButtonClass = theme === 'dark' ? styles.logoutButtonDark : styles.logoutButtonLight;
+
+
   return (
     <header
-      className={`border-b sticky top-0 z-50 shadow-sm transition-colors duration-200 ${
-        theme === 'dark'
-          ? 'bg-gray-900 border-gray-700 dark:bg-gray-900 dark:border-gray-700'
-          : 'bg-white border-gray-200'
+      className={`${styles.headerBase} ${
+        theme === 'dark' ? styles.headerBaseDark : styles.headerBaseLight
       }`}
     >
-      <div className="flex items-center justify-between h-16 px-4 lg:px-6">
+      <div className={styles.headerContainer}>
         {/* Left Section - Logo and Menu */}
-        <div className="flex items-center space-x-4">
+        <div className={styles.leftSection}>
           {/* Mobile Menu Button */}
           <button
             onClick={onMenuToggle}
-            className={`lg:hidden p-2 rounded-md transition-colors ${
-              theme === 'dark'
-                ? 'text-gray-300 hover:text-gray-100 hover:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
+            className={`${styles.mobileMenuButton} ${mobileMenuButtonClass} lg:hidden`}
             aria-label="Toggle menu"
           >
-            {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isSidebarOpen ? <X className={styles.menuIcon} /> : <Menu className={styles.menuIcon} />}
           </button>
 
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">BE</span>
+          <div className={styles.logoContainer}>
+            <div className={styles.logoIconBackground}>
+              <span className={styles.logoIconText}>BE</span>
             </div>
             <h1
-              className={`hidden sm:block text-xl font-bold transition-colors ${
-                theme === 'dark' ? 'text-gray-100 dark:text-gray-100' : 'text-gray-900'
+              className={`${styles.logoText} ${styles.hiddenSm} ${
+                theme === 'dark' ? styles.logoTextDark : styles.logoTextLight
               }`}
             >
               Bora Escrever
@@ -65,51 +84,39 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
         </div>
 
         {/* Center Section - Search (Desktop) */}
-        <div className="hidden md:flex flex-1 max-w-md mx-8">
-          <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <div className={styles.centerSection}>
+          <div className={styles.searchInputContainer}>
+            <Search className={styles.searchIcon} />
             <input
               type="text"
               placeholder="Buscar temas, aulas, repertórios..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${
-                theme === 'dark'
-                  ? 'bg-gray-800 border-gray-600 text-gray-100 placeholder-gray-400 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100'
-                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-              }`}
+              className={`${styles.searchInput} ${searchInputClass}`}
             />
           </div>
         </div>
 
         {/* Right Section - Actions and Profile */}
-        <div className="flex items-center space-x-2">
+        <div className={styles.rightSection}>
           {/* Search Button (Mobile) */}
           <button
-            className={`md:hidden p-2 rounded-md transition-colors ${
-              theme === 'dark'
-                ? 'text-gray-300 hover:text-gray-100 hover:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}
+            className={`${styles.iconButton} ${iconButtonClass} ${styles.mobileSearchButton}`}
             aria-label="Buscar"
           >
-            <Search className="h-5 w-5" />
+            <Search className={styles.buttonIcon} />
           </button>
 
           {/* Notifications */}
           <div className="relative">
             <button
               onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-              className={`relative p-2 rounded-md transition-colors ${
-                theme === 'dark'
-                  ? 'text-gray-300 hover:text-gray-100 hover:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-              }`}
+              className={`${styles.iconButton} ${iconButtonClass}`}
               aria-label="Notificações"
             >
-              <Bell className="h-5 w-5" />
+              <Bell className={styles.buttonIcon} />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className={styles.notificationBadge}>
                   {unreadCount}
                 </span>
               )}
@@ -122,40 +129,28 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className={`absolute right-0 mt-2 w-80 rounded-lg shadow-lg border py-2 z-50 ${
-                    theme === 'dark'
-                      ? 'bg-gray-800 border-gray-600 dark:bg-gray-800 dark:border-gray-600'
-                      : 'bg-white border-gray-200'
-                  }`}
+                  className={`${styles.dropdownPanel} ${dropdownPanelClass} ${styles.notificationsDropdown}`}
                 >
-                  <div
-                    className={`px-4 py-2 border-b ${
-                      theme === 'dark' ? 'border-gray-700' : 'border-gray-100'
-                    }`}
-                  >
-                    <h3
-                      className={`font-semibold ${
-                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
-                      }`}
-                    >
+                  <div className={`${styles.dropdownHeader} ${dropdownHeaderClass}`}>
+                    <h3 className={`${styles.dropdownTitle} ${dropdownTitleClass}`}>
                       Notificações
                     </h3>
                   </div>
-                  <div className="max-h-64 overflow-y-auto">
+                  <div className={styles.notificationsList}>
                     {notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`px-4 py-3 hover:bg-gray-50 cursor-pointer border-l-4 ${
-                          notification.unread ? 'border-blue-500 bg-blue-50' : 'border-transparent'
+                        className={`${styles.notificationItem} ${notificationItemHoverClass} ${
+                          notification.unread ? `${styles.notificationItemUnread} ${notificationItemUnreadClass}` : styles.notificationItemRead
                         }`}
                       >
-                        <p className="text-sm font-medium text-gray-900">{notification.title}</p>
-                        <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+                        <p className={`${styles.notificationTitle} ${notificationTitleClass}`}>{notification.title}</p>
+                        <p className={`${styles.notificationTime} ${notificationTimeClass}`}>{notification.time}</p>
                       </div>
                     ))}
                   </div>
-                  <div className="px-4 py-2 border-t border-gray-100">
-                    <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                  <div className={`${styles.dropdownFooter} ${dropdownFooterClass}`}>
+                    <button className={`${styles.viewAllButton} ${viewAllButtonClass}`}>
                       Ver todas as notificações
                     </button>
                   </div>
@@ -171,24 +166,16 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                theme === 'dark'
-                  ? 'text-gray-300 hover:text-gray-100 hover:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-              }`}
+              className={`${styles.iconButton} ${iconButtonClass} ${styles.profileButton}`}
               aria-label="Menu do usuário"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-medium text-sm">JM</span>
+              <div className={styles.profileAvatar}>
+                <span className={styles.profileAvatarText}>JM</span>
               </div>
-              <span
-                className={`hidden sm:block text-sm font-medium ${
-                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                }`}
-              >
+              <span className={`${styles.profileName} ${profileNameClass} ${styles.hiddenSm}`}>
                 João Marcelo
               </span>
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className={styles.chevronIcon} />
             </button>
 
             {/* Profile Dropdown Menu */}
@@ -198,37 +185,31 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg border py-2 z-50 ${
-                    theme === 'dark'
-                      ? 'bg-gray-800 border-gray-600 dark:bg-gray-800 dark:border-gray-600'
-                      : 'bg-white border-gray-200'
-                  }`}
+                  className={`${styles.dropdownPanel} ${dropdownPanelClass} ${styles.profileDropdown}`}
                 >
-                  <div className="px-4 py-3 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">João Marcelo</p>
-                    <p className="text-xs text-gray-500">joao.marcelo@email.com</p>
+                  <div className={`${styles.profileDropdownUserInfo} ${profileDropdownUserInfoClass}`}>
+                    <p className={`${styles.profileDropdownName} ${profileDropdownNameClass}`}>João Marcelo</p>
+                    <p className={`${styles.profileDropdownEmail} ${profileDropdownEmailClass}`}>joao.marcelo@email.com</p>
                   </div>
 
-                  <div className="py-2">
-                    <a
-                      href="/perfil"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      <User className="h-4 w-4 mr-3" />
-                      Meu Perfil
-                    </a>
-                    <a
-                      href="/configuracoes"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      <Settings className="h-4 w-4 mr-3" />
-                      Configurações
-                    </a>
+                  <div className={styles.profileDropdownNav}>
+                    <Link href="/perfil" passHref legacyBehavior>
+                      <a className={`${styles.profileDropdownLink} ${profileDropdownLinkClass}`}>
+                        <User className={styles.profileDropdownIcon} />
+                        Meu Perfil
+                      </a>
+                    </Link>
+                    <Link href="/configuracoes" passHref legacyBehavior>
+                      <a className={`${styles.profileDropdownLink} ${profileDropdownLinkClass}`}>
+                        <Settings className={styles.profileDropdownIcon} />
+                        Configurações
+                      </a>
+                    </Link>
                   </div>
 
-                  <div className="border-t border-gray-100 py-2">
-                    <button className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                      <LogOut className="h-4 w-4 mr-3" />
+                  <div className={`${styles.profileDropdownLogoutSection} ${profileDropdownLogoutSectionClass}`}>
+                    <button className={`${styles.logoutButton} ${logoutButtonClass}`}>
+                      <LogOut className={styles.profileDropdownIcon} />
                       Sair
                     </button>
                   </div>
@@ -240,19 +221,15 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
       </div>
 
       {/* Mobile Search Bar */}
-      <div className="md:hidden px-4 pb-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <div className={styles.mobileSearchContainer}>
+        <div className={styles.searchInputContainer}>
+          <Search className={styles.searchIcon} />
           <input
             type="text"
             placeholder="Buscar..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-              theme === 'dark'
-                ? 'bg-gray-800 border-gray-600 text-gray-100 placeholder-gray-400 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100'
-                : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-            }`}
+            className={`${styles.searchInput} ${searchInputClass}`}
           />
         </div>
       </div>
@@ -260,7 +237,7 @@ export default function Header({ onMenuToggle, isSidebarOpen }: HeaderProps) {
       {/* Click outside to close dropdowns */}
       {(isProfileOpen || isNotificationsOpen) && (
         <div
-          className="fixed inset-0 z-40"
+          className={styles.clickOutsideOverlay}
           onClick={() => {
             setIsProfileOpen(false);
             setIsNotificationsOpen(false);

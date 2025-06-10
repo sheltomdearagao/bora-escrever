@@ -2,17 +2,12 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Play, BookOpen, Clock, Users, Star, CheckCircle, Lock, Filter, Search } from 'lucide-react';
+
 import AppLayout from '@/components/layout/AppLayout';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Play } from 'lucide-react';
-import { BookOpen } from 'lucide-react';
-import { Clock } from 'lucide-react';
-import { Users } from 'lucide-react';
-import { Star } from 'lucide-react';
-import { CheckCircle } from 'lucide-react';
-import { Lock } from 'lucide-react';
-import { Filter } from 'lucide-react';
-import { Search } from 'lucide-react';
+
+import styles from './AulasPage.module.css';
 
 function AulasPage() {
   const [filtroAtivo, setFiltroAtivo] = useState('todos');
@@ -37,7 +32,7 @@ function AulasPage() {
       professor: 'Prof. Ana Silva',
       rating: 4.8,
       assistida: true,
-      thumbnail: '/api/placeholder/300/200',
+      thumbnail: '/api/placeholder/300/200', // Placeholder, actual image handled by CSS background if chosen
       progresso: 100,
     },
     {
@@ -117,52 +112,40 @@ function AulasPage() {
     return matchCategoria && matchBusca;
   });
 
-  const getNivelColor = (nivel: string) => {
+  const getNivelClass = (nivel: string) => {
     switch (nivel) {
       case 'Iniciante':
-        return theme === 'dark'
-          ? 'bg-green-900 text-green-300 dark:bg-green-900 dark:text-green-300'
-          : 'bg-green-100 text-green-700';
+        return theme === 'dark' ? styles.nivelInicianteDark : styles.nivelInicianteLight;
       case 'Intermediário':
-        return theme === 'dark'
-          ? 'bg-blue-900 text-blue-300 dark:bg-blue-900 dark:text-blue-300'
-          : 'bg-blue-100 text-blue-700';
+        return theme === 'dark' ? styles.nivelIntermediarioDark : styles.nivelIntermediarioLight;
       case 'Avançado':
-        return theme === 'dark'
-          ? 'bg-purple-900 text-purple-300 dark:bg-purple-900 dark:text-purple-300'
-          : 'bg-purple-100 text-purple-700';
+        return theme === 'dark' ? styles.nivelAvancadoDark : styles.nivelAvancadoLight;
       default:
-        return theme === 'dark'
-          ? 'bg-gray-700 text-gray-300 dark:bg-gray-700 dark:text-gray-300'
-          : 'bg-gray-100 text-gray-700';
+        return theme === 'dark' ? styles.nivelDefaultDark : styles.nivelDefaultLight;
     }
   };
 
   return (
     <AppLayout>
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className={`${styles.container} ${styles.spaceY6}`}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`rounded-lg shadow-sm border p-6 ${
-            theme === 'dark'
-              ? 'bg-gray-800 border-gray-700 dark:bg-gray-800 dark:border-gray-700'
-              : 'bg-white border-gray-200'
-          }`}
+          className={`${styles.card} ${theme === 'dark' ? styles.cardDark : styles.cardLight} ${styles.header}`}
         >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className={`${styles.flex} ${styles.flexCol} ${styles.lgFlexRow} ${styles.lgItemsCenter} ${styles.lgJustifyBetween} ${styles.gap4}`}>
             <div>
               <h1
-                className={`text-3xl font-bold ${
-                  theme === 'dark' ? 'text-gray-100 dark:text-gray-100' : 'text-gray-900'
+                className={`${styles.headerTitle} ${
+                  theme === 'dark' ? styles.headerTitleDark : styles.headerTitleLight
                 }`}
               >
                 Minhas Aulas
               </h1>
               <p
-                className={`mt-2 ${
-                  theme === 'dark' ? 'text-gray-300 dark:text-gray-300' : 'text-gray-600'
+                className={`${styles.headerSubtitle} ${
+                  theme === 'dark' ? styles.headerSubtitleDark : styles.headerSubtitleLight
                 }`}
               >
                 Acesse conteúdos exclusivos e aprimore suas habilidades
@@ -170,21 +153,15 @@ function AulasPage() {
             </div>
 
             {/* Search */}
-            <div className="relative max-w-md">
-              <Search
-                className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 ${
-                  theme === 'dark' ? 'text-gray-400' : 'text-gray-400'
-                }`}
-              />
+            <div className={styles.searchContainer}>
+              <Search className={styles.searchIcon} />
               <input
                 type="text"
                 placeholder="Buscar aulas..."
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                  theme === 'dark'
-                    ? 'bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100'
-                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                className={`${styles.searchInput} ${
+                  theme === 'dark' ? styles.searchInputDark : styles.searchInputLight
                 }`}
               />
             </div>
@@ -196,34 +173,34 @@ function AulasPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className={`rounded-lg shadow-sm border p-6 ${
-            theme === 'dark'
-              ? 'bg-gray-800 border-gray-700 dark:bg-gray-800 dark:border-gray-700'
-              : 'bg-white border-gray-200'
-          }`}
+          className={`${styles.card} ${theme === 'dark' ? styles.cardDark : styles.cardLight} ${styles.filterSection}`}
         >
-          <div className="flex items-center space-x-2 mb-4">
-            <Filter className={`h-5 w-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`} />
+          <div className={styles.filterHeader}>
+            <Filter
+              className={`${styles.filterIcon} ${
+                theme === 'dark' ? styles.filterIconDark : styles.filterIconLight
+              }`}
+            />
             <h3
-              className={`font-semibold ${
-                theme === 'dark' ? 'text-gray-100 dark:text-gray-100' : 'text-gray-900'
+              className={`${styles.filterTitle} ${
+                theme === 'dark' ? styles.filterTitleDark : styles.filterTitleLight
               }`}
             >
               Categorias
             </h3>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className={styles.filterButtonsContainer}>
             {categorias.map((categoria) => (
               <button
                 key={categoria.id}
                 onClick={() => setFiltroAtivo(categoria.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`${styles.filterButton} ${
                   filtroAtivo === categoria.id
-                    ? 'bg-primary-600 text-white'
+                    ? styles.filterButtonActive
                     : theme === 'dark'
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? styles.filterButtonInactiveDark
+                      : styles.filterButtonInactiveLight
                 }`}
               >
                 {categoria.label} ({categoria.count})
@@ -233,107 +210,105 @@ function AulasPage() {
         </motion.div>
 
         {/* Lista de Aulas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={styles.aulasGrid}>
           {aulasFiltradas.map((aula, index) => (
             <motion.div
               key={aula.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * (index + 2) }}
-              className={`rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow ${
-                theme === 'dark'
-                  ? 'bg-gray-800 border-gray-700 dark:bg-gray-800 dark:border-gray-700'
-                  : 'bg-white border-gray-200'
+              className={`${styles.aulaCard} ${
+                theme === 'dark' ? styles.aulaCardDark : styles.aulaCardLight
               }`}
             >
               {/* Thumbnail */}
-              <div className="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+              <div className={styles.aulaThumbnail}> {/* BG Image handled by this class */}
+                <div className={styles.thumbnailOverlay}>
+                  <div className={styles.thumbnailIconContainer}>
                     {aula.premium && !aula.assistida ? (
-                      <Lock className="h-8 w-8 text-white" />
+                      <Lock className={styles.thumbnailIcon} />
                     ) : aula.assistida ? (
-                      <CheckCircle className="h-8 w-8 text-white" />
+                      <CheckCircle className={styles.thumbnailIcon} />
                     ) : (
-                      <Play className="h-8 w-8 text-white" />
+                      <Play className={styles.thumbnailIcon} />
                     )}
                   </div>
                 </div>
 
                 {/* Progress Bar */}
                 {aula.progresso > 0 && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-black bg-opacity-20">
+                  <div className={styles.progressBarContainer}>
                     <div
-                      className="h-full bg-white transition-all duration-300"
-                      style={{ width: `${aula.progresso}%` }}
+                      className={styles.progressBar}
+                      style={{ '--progress-width': `${aula.progresso}%` } as React.CSSProperties}
                     />
                   </div>
                 )}
 
                 {/* Premium Badge */}
                 {aula.premium && (
-                  <div className="absolute top-3 right-3 px-2 py-1 bg-yellow-500 text-white text-xs font-medium rounded-full">
+                  <div className={styles.premiumBadge}>
                     Premium
                   </div>
                 )}
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
+              <div className={styles.aulaContent}>
+                <div className={styles.aulaNivelBadgeContainer}>
                   <span
-                    className={`px-2 py-1 text-xs font-medium rounded-full ${getNivelColor(aula.nivel)}`}
+                    className={`${styles.aulaNivelBadge} ${getNivelClass(aula.nivel)}`}
                   >
                     {aula.nivel}
                   </span>
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                    <span className="text-sm text-gray-600">{aula.rating}</span>
+                  <div className={styles.ratingContainer}>
+                    <Star className={styles.starIcon} />
+                    <span className={`${styles.ratingText} ${theme === 'dark' ? styles.ratingTextDark : ''}`}>{aula.rating}</span>
                   </div>
                 </div>
 
                 <h3
-                  className={`font-semibold mb-2 line-clamp-2 ${
-                    theme === 'dark' ? 'text-gray-100 dark:text-gray-100' : 'text-gray-900'
+                  className={`${styles.aulaTitle} ${
+                    theme === 'dark' ? styles.aulaTitleDark : styles.aulaTitleLight
                   }`}
                 >
                   {aula.titulo}
                 </h3>
 
                 <p
-                  className={`text-sm mb-4 line-clamp-2 ${
-                    theme === 'dark' ? 'text-gray-300 dark:text-gray-300' : 'text-gray-600'
+                  className={`${styles.aulaDescription} ${
+                    theme === 'dark' ? styles.aulaDescriptionDark : styles.aulaDescriptionLight
                   }`}
                 >
                   {aula.descricao}
                 </p>
 
                 <div
-                  className={`flex items-center justify-between text-sm mb-4 ${
-                    theme === 'dark' ? 'text-gray-400 dark:text-gray-400' : 'text-gray-500'
+                  className={`${styles.aulaMeta} ${
+                    theme === 'dark' ? styles.aulaMetaDark : styles.aulaMetaLight
                   }`}
                 >
-                  <div className="flex items-center space-x-1">
-                    <Clock className="h-4 w-4" />
+                  <div className={styles.metaItem}>
+                    <Clock className={styles.metaIcon} />
                     <span>{aula.duracao}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Users className="h-4 w-4" />
+                  <div className={styles.metaItem}>
+                    <Users className={styles.metaIcon} />
                     <span>{aula.professor}</span>
                   </div>
                 </div>
 
                 <button
-                  className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
+                  className={`${styles.actionButton} ${
                     aula.premium && !aula.assistida
                       ? theme === 'dark'
-                        ? 'bg-gray-700 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-400'
-                        : 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                        ? styles.actionButtonPremiumLockedDark
+                        : styles.actionButtonPremiumLockedLight
                       : aula.assistida
                         ? theme === 'dark'
-                          ? 'bg-green-900 text-green-300 hover:bg-green-800 dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800'
-                          : 'bg-green-100 text-green-700 hover:bg-green-200'
-                        : 'bg-primary-600 text-white hover:bg-primary-700'
+                          ? styles.actionButtonAssistidaDark
+                          : styles.actionButtonAssistidaLight
+                        : styles.actionButtonDefault
                   }`}
                   disabled={aula.premium && !aula.assistida}
                 >
@@ -355,23 +330,23 @@ function AulasPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className={styles.emptyStateContainer}
           >
             <BookOpen
-              className={`h-16 w-16 mx-auto mb-4 ${
-                theme === 'dark' ? 'text-gray-500' : 'text-gray-400'
+              className={`${styles.emptyStateIcon} ${
+                theme === 'dark' ? styles.emptyStateIconDark : styles.emptyStateIconLight
               }`}
             />
             <h3
-              className={`text-lg font-medium mb-2 ${
-                theme === 'dark' ? 'text-gray-100 dark:text-gray-100' : 'text-gray-900'
+              className={`${styles.emptyStateTitle} ${
+                theme === 'dark' ? styles.emptyStateTitleDark : styles.emptyStateTitleLight
               }`}
             >
               Nenhuma aula encontrada
             </h3>
             <p
               className={`${
-                theme === 'dark' ? 'text-gray-300 dark:text-gray-300' : 'text-gray-600'
+                theme === 'dark' ? styles.emptyStateMessageDark : styles.emptyStateMessageLight
               }`}
             >
               Tente ajustar os filtros ou termos de busca
@@ -383,6 +358,6 @@ function AulasPage() {
   );
 }
 
-AulasPage.displayName = "AulasPage";
+AulasPage.displayName = 'AulasPage';
 
 export default AulasPage;
