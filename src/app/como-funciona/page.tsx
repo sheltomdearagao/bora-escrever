@@ -1,7 +1,7 @@
 'use client';
 
+import Link from 'next/link'; // Import Link
 import { motion } from 'framer-motion';
-import AppLayout from '@/components/layout/AppLayout';
 import {
   Upload,
   Zap,
@@ -16,6 +16,10 @@ import {
   Lightbulb,
   TrendingUp,
 } from 'lucide-react';
+
+import AppLayout from '@/components/layout/AppLayout';
+
+import styles from './ComoFuncionaPage.module.css';
 
 function ComoFuncionaPage() {
   const passos = [
@@ -88,6 +92,23 @@ function ComoFuncionaPage() {
     },
   ];
 
+  const getCompetenciaStyles = (color: string) => {
+    switch (color) {
+      case 'blue':
+        return { card: styles.competenciaCardBlue, icon: styles.competenciaIconBlue };
+      case 'green':
+        return { card: styles.competenciaCardGreen, icon: styles.competenciaIconGreen };
+      case 'purple':
+        return { card: styles.competenciaCardPurple, icon: styles.competenciaIconPurple };
+      case 'orange':
+        return { card: styles.competenciaCardOrange, icon: styles.competenciaIconOrange };
+      case 'red':
+        return { card: styles.competenciaCardRed, icon: styles.competenciaIconRed };
+      default:
+        return { card: '', icon: '' }; // Should not happen with current data
+    }
+  };
+
   const vantagens = [
     {
       icone: Clock,
@@ -148,8 +169,8 @@ function ComoFuncionaPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2 }}
-                className={`flex flex-col lg:flex-row items-center gap-8 ${
-                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                className={`${styles.passoItem} ${
+                  index % 2 === 1 ? styles.passoItemReverse : ''
                 }`}
               >
                 <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 p-8">
@@ -189,26 +210,29 @@ function ComoFuncionaPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {competencias.map((comp, index) => (
-              <motion.div
-                key={comp.numero}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`p-6 rounded-lg border-2 border-${comp.cor}-200 bg-${comp.cor}-50`}
-              >
-                <div className="flex items-center space-x-3 mb-3">
-                  <div
-                    className={`w-10 h-10 bg-${comp.cor}-500 rounded-lg flex items-center justify-center`}
-                  >
-                    <span className="text-white font-bold">{comp.numero}</span>
+            {competencias.map((comp, index) => {
+              const competenciaStyle = getCompetenciaStyles(comp.cor);
+              return (
+                <motion.div
+                  key={comp.numero}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`${styles.competenciaCard} ${competenciaStyle.card}`}
+                >
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div
+                      className={`${styles.competenciaIconContainer} ${competenciaStyle.icon}`}
+                    >
+                      <span className={styles.competenciaIconText}>{comp.numero}</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900">{comp.nome}</h3>
                   </div>
-                  <h3 className="font-semibold text-gray-900">{comp.nome}</h3>
-                </div>
-                <p className="text-gray-600 text-sm">{comp.descricao}</p>
-              </motion.div>
-            ))}
+                  <p className="text-gray-600 text-sm">{comp.descricao}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.section>
 
@@ -226,7 +250,7 @@ function ComoFuncionaPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {vantagens.map((vantagem, index) => (
               <motion.div
-                key={index}
+                key={index} // Using index as key for static list
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -291,19 +315,20 @@ function ComoFuncionaPage() {
             Experimente nossa plataforma gratuitamente e veja como podemos ajudar você a melhorar
             suas redações para o ENEM.
           </p>
-          <a
-            href="/correcao"
-            className="inline-flex items-center space-x-2 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-          >
-            <Zap className="h-5 w-5" />
-            <span>Corrigir Redação Agora</span>
-          </a>
+          <Link href="/correcao" passHref legacyBehavior>
+            <a
+              className="inline-flex items-center space-x-2 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
+              <Zap className="h-5 w-5" />
+              <span>Corrigir Redação Agora</span>
+            </a>
+          </Link>
         </motion.section>
       </div>
     </AppLayout>
   );
 }
 
-ComoFuncionaPage.displayName = "ComoFuncionaPage";
+ComoFuncionaPage.displayName = 'ComoFuncionaPage';
 
 export default ComoFuncionaPage;
