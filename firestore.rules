@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions for improved readability and reusability
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // By default, deny all reads and writes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Allow authenticated users to manage their own user document
+    match /users/{userId} {
+      allow read, update, delete: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn();
+    }
+
+    // Rules for a 'notes' collection, where each user has their own notes
+    match /users/{userId}/notes/{noteId} {
+      allow read, write: if isSignedIn() && isOwner(userId);
+    }
+  }
+}

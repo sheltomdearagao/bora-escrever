@@ -1,0 +1,26 @@
+// Substitua o código antigo por:
+import { DndContext, Draggable, Droppable } from '@dnd-kit/core';
+
+function SeuComponente() {
+  return (
+    <DndContext>
+      <Droppable id="droppable">
+        {(provided) => (
+          <div ref={provided.setNodeRef}>
+            <Draggable id="draggable">
+              {(provided) => (
+                <div 
+                  ref={provided.setNodeRef}
+                  {...provided.listeners}
+                  {...provided.attributes}
+                >
+                  Item arrastável
+                </div>
+              )}
+            </Draggable>
+          </div>
+        )}
+      </Droppable>
+    </DndContext>
+  );
+}
