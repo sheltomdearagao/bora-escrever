@@ -21,8 +21,8 @@ import {
   Award,
 } from 'lucide-react';
 
-import { useTheme } from '@/contexts/ThemeContext'; // Import useTheme
-import styles from './Sidebar.module.css'; // Import CSS Modules
+import { useTheme } from '@/contexts/ThemeContext';
+import styles from './Sidebar.module.css';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -56,7 +56,7 @@ const menuItems: MenuItem[] = [
   {
     id: 'estudar',
     label: 'Estudar',
-    href: '#', // Parent items with children often use # or are not actual links
+    href: '#',
     icon: Lightbulb,
     children: [
       { id: 'temas', label: 'Banco de Temas', href: '/temas', icon: BookOpen },
@@ -72,8 +72,8 @@ const menuItems: MenuItem[] = [
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { theme } = useTheme(); // Use theme
-  const [expandedItems, setExpandedItems] = useState<string[]>(['estudar', 'progresso']); // Keep 'progresso' expanded by default too
+  const { theme } = useTheme();
+  const [expandedItems, setExpandedItems] = useState<string[]>(['estudar', 'progresso']);
 
   const toggleExpanded = (itemId: string) => {
     setExpandedItems((prev) =>
@@ -83,7 +83,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
-    if (href === '#') return false; // Parent items with href="#" are not active themselves
+    if (href === '#') return false;
     return pathname.startsWith(href);
   };
 
@@ -92,6 +92,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     const isExpanded = expandedItems.includes(item.id);
     const active = isActive(item.href);
 
+    // Menu items will continue to use CSS Modules for detailed styling including active/hover states
     const linkClasses = [
       styles.menuItemLink,
       theme === 'dark' ? styles.menuItemLinkDark : styles.menuItemLinkLight,
@@ -121,16 +122,29 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <motion.div
         whileHover={{ x: level === 0 ? 4 : 2 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="w-full" // Ensure motion div takes full width for hover effect
+        className="w-full"
       >
-        <div // Changed from <a> to <div> for items with children, Link handles navigation
+        <div
           className={linkClasses}
           onClick={(e) => {
             if (hasChildren) {
               e.preventDefault();
               toggleExpanded(item.id);
             } else {
-              onClose(); // Close sidebar on navigation for non-parent items
+              onClose();
+            }
+          }}
+          role="button" // Added role button for accessibility on div
+          tabIndex={0} // Added tabIndex for accessibility
+          onKeyDown={(e) => { // Added onKeyDown for accessibility
+            if (e.key === 'Enter' || e.key === ' ') {
+              if (hasChildren) {
+                e.preventDefault();
+                toggleExpanded(item.id);
+              } else {
+                onClose();
+                // For actual navigation with Link, this might need to trigger click on Link
+              }
             }
           }}
         >
@@ -154,10 +168,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
     return (
       <div key={item.id}>
-        {hasChildren ? (
-          menuItemContent // Render div wrapper for parent items
+        {hasChildren || item.href === '#' ? ( // If it has children or href is '#', it's not a direct link
+          menuItemContent
         ) : (
           <Link href={item.href} passHref legacyBehavior>
+            {/* The motion.div and inner div are part of the link's content and styling */}
             {menuItemContent}
           </Link>
         )}
@@ -183,41 +198,58 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {isOpen && <div className={styles.mobileOverlay} onClick={onClose} />}
+      {isOpen && <div className={`${styles.mobileOverlay} lg:hidden`} onClick={onClose} />}
       <motion.aside
         initial={false}
         animate={{ x: isOpen ? 0 : -320 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className={`${styles.sidebarBase} ${
-          theme === 'dark' ? styles.sidebarBaseDark : styles.sidebarBaseLight
-        }`}
+        className={`
+          fixed top-0 left-0 z-50 h-full w-80
+          shadow-lg lg:relative lg:translate-x-0 lg:shadow-none
+          flex flex-col
+          ${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'}
+          border-r
+          ${styles.sidebarTransition} // For CSS transitions on properties not covered by motion.aside
+        `}
       >
-        <div className={`${styles.header} ${theme === 'dark' ? styles.headerDark : styles.headerLight}`}>
+        <div
+          className={`
+            flex items-center justify-between p-6 border-b
+            ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}
+            ${styles.headerBase} // Keep module class if it has other structural styles like padding
+          `}
+        >
           <div className={styles.logoContainer}>
             <div className={styles.logoIconBackground}>
               <span className={styles.logoIconText}>BE</span>
             </div>
             <div>
-              <h2 className={`${styles.logoTitle} ${theme === 'dark' ? styles.logoTitleDark : styles.logoTitleLight}`}>
+              <h2 className={`text-lg font-bold ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
                 Bora Escrever
               </h2>
-              <p className={`${styles.logoSubtitle} ${theme === 'dark' ? styles.logoSubtitleDark : styles.logoSubtitleLight}`}>
+              <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                 Plataforma Educacional
               </p>
             </div>
           </div>
         </div>
 
-        <div className={`${styles.userInfo} ${theme === 'dark' ? styles.userInfoDark : styles.userInfoLight}`}>
+        <div
+          className={`
+            p-4 border-b
+            ${theme === 'dark' ? 'border-gray-700' : 'border-gray-100'}
+            ${styles.userInfoBase} // Keep module class if it has other structural styles like padding
+          `}
+        >
           <div className={styles.userInfoContainer}>
             <div className={styles.avatar}>
               <span className={styles.avatarText}>JM</span>
             </div>
             <div className={styles.userInfoTextContainer}>
-              <p className={`${styles.userName} ${theme === 'dark' ? styles.userNameDark : styles.userNameLight}`}>
+              <p className={`text-sm font-medium truncate ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
                 João Marcelo
               </p>
-              <p className={`${styles.userStatus} ${theme === 'dark' ? styles.userStatusDark : styles.userStatusLight}`}>
+              <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                 Estudante Premium
               </p>
             </div>
@@ -228,17 +260,29 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           {menuItems.map((item) => renderMenuItem(item))}
         </nav>
 
-        <div className={`${styles.footer} ${theme === 'dark' ? styles.footerDark : styles.footerLight}`}>
-          <div className={`${styles.footerCard} ${theme === 'dark' ? styles.footerCardDark : styles.footerCardLight}`}>
+        <div
+          className={`
+            p-4 border-t
+            ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}
+            ${styles.footerBase} // Keep module class if it has other structural styles like padding
+          `}
+        >
+          <div
+            className={`
+              p-4 rounded-lg
+              ${theme === 'dark' ? 'bg-gradient-to-r from-gray-700 to-gray-800' : 'bg-gradient-to-r from-blue-50 to-purple-50'}
+              ${styles.footerCardBase} // Keep module class if it has other structural styles
+            `}
+          >
             <div className={styles.footerCardContent}>
               <div className={styles.footerIconContainer}>
                 <Award className={styles.footerIcon} />
               </div>
               <div className={styles.footerTextContainer}>
-                <p className={`${styles.footerTitle} ${theme === 'dark' ? styles.footerTitleDark : styles.footerTitleLight}`}>
+                <p className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
                   Plano Premium
                 </p>
-                <p className={`${styles.footerSubtitle} ${theme === 'dark' ? styles.footerSubtitleDark : styles.footerSubtitleLight}`}>
+                <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                   Acesso completo
                 </p>
               </div>

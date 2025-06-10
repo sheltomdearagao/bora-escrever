@@ -16,12 +16,12 @@ import {
   HelpCircle,
 } from 'lucide-react';
 
-import { useTheme } from '@/contexts/ThemeContext'; // Import useTheme
-import styles from './Footer.module.css'; // Import CSS Modules
+import { useTheme } from '@/contexts/ThemeContext';
+import styles from './Footer.module.css'; // Keep for structural styles not replaced by Tailwind
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const { theme } = useTheme(); // Use theme
+  const { theme } = useTheme();
 
   const linksSobre = [
     { href: '/sobre', label: 'Sobre Nós', icon: Users },
@@ -42,53 +42,58 @@ export default function Footer() {
     { href: 'https://youtube.com/boraescrever', icon: Youtube, label: 'YouTube' },
   ];
 
-  // Helper to apply theme classes
-  const themeClass = (lightClass: string, darkClass: string) =>
-    theme === 'dark' ? darkClass : lightClass;
-
   return (
-    <footer className={`${styles.footerBase} ${themeClass(styles.footerBaseLight, styles.footerBaseDark)}`}>
-      <div className={styles.container}>
+    <footer
+      className={`
+        ${styles.footerBaseStructural} // For padding, transitions etc. from original .footerBase
+        ${theme === 'dark' ? 'bg-gray-900 text-gray-300' : 'bg-gray-100 text-gray-700'}
+      `}
+    >
+      <div className={`${styles.container} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`}>
         {/* Conteúdo Principal */}
-        <div className={styles.mainContentGrid}>
+        <div className={`${styles.mainContentGrid} py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8`}>
           {/* Logo e Descrição */}
-          <div className={styles.logoSection}>
+          <div className={`${styles.logoSection} lg:col-span-1`}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={styles.logoSectionContent}
+              className={`${styles.logoSectionContent} space-y-4`}
             >
-              <div className={styles.logoHeader}>
-                <div className={styles.logoIconContainer}>
-                  <span className={styles.logoIconText}>BE</span>
+              <div className={`${styles.logoHeader} flex items-center space-x-3`}>
+                <div className={`${styles.logoIconContainer} w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center`}>
+                  <span className={`${styles.logoIconText} text-white font-bold text-lg`}>BE</span>
                 </div>
                 <div>
-                  <h3 className={`${styles.logoTitle} ${themeClass(styles.logoTitleLight, styles.logoTitleDark)}`}>
+                  <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                     Bora Escrever
                   </h3>
-                  <p className={`${styles.logoSubtitle} ${themeClass(styles.logoSubtitleLight, styles.logoSubtitleDark)}`}>
+                  <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                     Plataforma Educacional
                   </p>
                 </div>
               </div>
 
-              <p className={`${styles.descriptionText} ${themeClass(styles.descriptionTextLight, styles.descriptionTextDark)}`}>
+              <p className={`text-sm leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                 A plataforma mais completa para preparação de redação ENEM. Correção automática com
                 IA, feedback personalizado e muito mais.
               </p>
 
-              <div className={styles.socialIconsContainer}>
+              <div className={`${styles.socialIconsContainer} flex space-x-3`}>
                 {redesSociais.map((rede) => (
                   <a
                     key={rede.label}
                     href={rede.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${styles.socialIconLink} ${themeClass(styles.socialIconLinkLight, styles.socialIconLinkDark)}`}
+                    className={`
+                      w-8 h-8 rounded-lg flex items-center justify-center transition-colors
+                      ${theme === 'dark' ? 'bg-gray-800 hover:bg-blue-600 text-gray-300' : 'bg-gray-200 hover:bg-blue-600 text-gray-700 hover:text-white'}
+                      ${styles.socialIconLinkStructural} /* For any non-theme related base styles from .socialIconLink */
+                    `}
                     aria-label={rede.label}
                   >
-                    <rede.icon className={styles.socialIcon} />
+                    <rede.icon className={`${styles.socialIcon} h-4 w-4`} />
                   </a>
                 ))}
               </div>
@@ -103,17 +108,20 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <h4 className={`${styles.linksSectionTitle} ${themeClass(styles.linksSectionTitleLight, styles.linksSectionTitleDark)}`}>
+              <h4 className={`text-lg font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
                 Sobre
               </h4>
-              <ul className={styles.linksList}>
+              <ul className={`${styles.linksList} space-y-3`}>
                 {linksSobre.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className={`${styles.linkItem} ${themeClass(styles.linkItemLight, styles.linkItemDark)}`}
+                      className={`flex items-center space-x-2 text-sm transition-colors
+                                  ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
+                                  ${styles.linkItemStructural} /* For any non-theme related base styles */
+                                `}
                     >
-                      <link.icon className={styles.linkItemIcon} />
+                      <link.icon className={`${styles.linkItemIcon} h-4 w-4`} />
                       <span>{link.label}</span>
                     </Link>
                   </li>
@@ -130,17 +138,20 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <h4 className={`${styles.linksSectionTitle} ${themeClass(styles.linksSectionTitleLight, styles.linksSectionTitleDark)}`}>
+              <h4 className={`text-lg font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
                 Legal
               </h4>
-              <ul className={styles.linksList}>
+              <ul className={`${styles.linksList} space-y-3`}>
                 {linksLegais.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className={`${styles.linkItem} ${themeClass(styles.linkItemLight, styles.linkItemDark)}`}
+                      className={`flex items-center space-x-2 text-sm transition-colors
+                                  ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}
+                                  ${styles.linkItemStructural}
+                                `}
                     >
-                      <link.icon className={styles.linkItemIcon} />
+                      <link.icon className={`${styles.linkItemIcon} h-4 w-4`} />
                       <span>{link.label}</span>
                     </Link>
                   </li>
@@ -157,32 +168,38 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <h4 className={`${styles.linksSectionTitle} ${themeClass(styles.linksSectionTitleLight, styles.linksSectionTitleDark)}`}>
+              <h4 className={`text-lg font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
                 Contato
               </h4>
-              <div className={styles.contactInfoContainer}>
-                <div className={`${styles.contactInfoItem} ${themeClass(styles.contactInfoItemLight, styles.contactInfoItemDark)}`}>
-                  <Mail className={styles.contactInfoIcon} />
+              <div className={`${styles.contactInfoContainer} space-y-3`}>
+                <div className={`flex items-center space-x-2 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <Mail className={`${styles.contactInfoIcon} h-4 w-4`} />
                   <span>contato@boraescrever.com.br</span>
                 </div>
-                <div className={`${styles.contactInfoItem} ${themeClass(styles.contactInfoItemLight, styles.contactInfoItemDark)}`}>
-                  <Phone className={styles.contactInfoIcon} />
+                <div className={`flex items-center space-x-2 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <Phone className={`${styles.contactInfoIcon} h-4 w-4`} />
                   <span>(11) 99999-9999</span>
                 </div>
-                <div className={`${styles.contactInfoItem} ${themeClass(styles.contactInfoItemLight, styles.contactInfoItemDark)}`}>
-                  <MapPin className={styles.contactInfoIcon} />
+                <div className={`flex items-center space-x-2 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <MapPin className={`${styles.contactInfoIcon} h-4 w-4`} />
                   <span>São Paulo, SP - Brasil</span>
                 </div>
               </div>
 
-              <div className={`${styles.protectedDataBox} ${themeClass(styles.protectedDataBoxLight, styles.protectedDataBoxDark)}`}>
-                <div className={styles.protectedDataHeader}>
-                  <Shield className={`${styles.protectedDataIcon} ${themeClass(styles.protectedDataIconLight, styles.protectedDataIconDark)}`} />
-                  <span className={`${styles.protectedDataTitle} ${themeClass(styles.protectedDataTitleLight, styles.protectedDataTitleDark)}`}>
+              <div
+                className={`
+                  mt-4 p-3 rounded-lg
+                  ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'}
+                  ${styles.protectedDataBoxStructural} /* For any non-theme related base styles */
+                `}
+              >
+                <div className={`${styles.protectedDataHeader} flex items-center space-x-2 mb-2`}>
+                  <Shield className={`h-4 w-4 ${theme === 'dark' ? 'text-green-400' : 'text-green-500'}`} />
+                  <span className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
                     Dados Protegidos
                   </span>
                 </div>
-                <p className={`${styles.protectedDataText} ${themeClass(styles.protectedDataTextLight, styles.protectedDataTextDark)}`}>
+                <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                   Seus dados estão seguros conosco. Conforme LGPD.
                 </p>
               </div>
@@ -191,15 +208,15 @@ export default function Footer() {
         </div>
 
         {/* Linha Divisória */}
-        <div className={`${styles.divider} ${themeClass(styles.dividerLight, styles.dividerDark)}`}></div>
+        <div className={`border-t ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'} ${styles.dividerStructural}`}></div>
 
         {/* Copyright */}
-        <div className={styles.copyrightSection}>
+        <div className={`${styles.copyrightSection} py-6 flex flex-col md:flex-row justify-between items-center`}>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className={`${styles.copyrightText} ${themeClass(styles.copyrightTextLight, styles.copyrightTextDark)}`}
+            className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}
           >
             © {currentYear} Bora Escrever. Todos os direitos reservados.
           </motion.p>
@@ -208,9 +225,9 @@ export default function Footer() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className={styles.madeWithLoveContainer}
+            className={`${styles.madeWithLoveContainer} flex items-center space-x-4 mt-4 md:mt-0`}
           >
-            <span className={`${styles.madeWithLoveText} ${themeClass(styles.madeWithLoveTextLight, styles.madeWithLoveTextDark)}`}>
+            <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
               Feito com ❤️ para estudantes brasileiros
             </span>
           </motion.div>
