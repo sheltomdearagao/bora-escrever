@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -20,6 +21,9 @@ import {
   Award,
 } from 'lucide-react';
 
+import { useTheme } from '@/contexts/ThemeContext'; // Import useTheme
+import styles from './Sidebar.module.css'; // Import CSS Modules
+
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,19 +39,8 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  {
-    id: 'dashboard',
-    label: 'Dashboard',
-    href: '/',
-    icon: Home,
-  },
-  {
-    id: 'escrever',
-    label: 'Escrever Agora',
-    href: '/escrever',
-    icon: PenTool,
-    badge: 'Novo',
-  },
+  { id: 'dashboard', label: 'Dashboard', href: '/', icon: Home },
+  { id: 'escrever', label: 'Escrever Agora', href: '/escrever', icon: PenTool, badge: 'Novo' },
   {
     id: 'progresso',
     label: 'Meu Progresso',
@@ -59,16 +52,11 @@ const menuItems: MenuItem[] = [
       { id: 'conquistas', label: 'Conquistas', href: '/progresso/conquistas', icon: Award },
     ],
   },
-  {
-    id: 'aulas',
-    label: 'Minhas Aulas',
-    href: '/aulas',
-    icon: BookOpen,
-  },
+  { id: 'aulas', label: 'Minhas Aulas', href: '/aulas', icon: BookOpen },
   {
     id: 'estudar',
     label: 'Estudar',
-    href: '#',
+    href: '#', // Parent items with children often use # or are not actual links
     icon: Lightbulb,
     children: [
       { id: 'temas', label: 'Banco de Temas', href: '/temas', icon: BookOpen },
@@ -76,37 +64,16 @@ const menuItems: MenuItem[] = [
       { id: 'estrutura', label: 'Estrutura Textual', href: '/estrutura', icon: Building2 },
     ],
   },
-  {
-    id: 'tutoria',
-    label: 'Tutoria Humanizada',
-    href: '/tutoria',
-    icon: Users,
-  },
-  {
-    id: 'maria',
-    label: 'Chat com MarIA',
-    href: '/maria',
-    icon: Bot,
-    badge: 'IA',
-  },
-  {
-    id: 'correcao',
-    label: 'Correção Automática',
-    href: '/correcao',
-    icon: Target,
-    badge: 'Novo',
-  },
-  {
-    id: 'configuracoes',
-    label: 'Configurações',
-    href: '/configuracoes',
-    icon: Settings,
-  },
+  { id: 'tutoria', label: 'Tutoria Humanizada', href: '/tutoria', icon: Users },
+  { id: 'maria', label: 'Chat com MarIA', href: '/maria', icon: Bot, badge: 'IA' },
+  { id: 'correcao', label: 'Correção Automática', href: '/correcao', icon: Target, badge: 'Novo'},
+  { id: 'configuracoes', label: 'Configurações', href: '/configuracoes', icon: Settings },
 ];
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const [expandedItems, setExpandedItems] = useState<string[]>(['estudar']);
+  const { theme } = useTheme(); // Use theme
+  const [expandedItems, setExpandedItems] = useState<string[]>(['estudar', 'progresso']); // Keep 'progresso' expanded by default too
 
   const toggleExpanded = (itemId: string) => {
     setExpandedItems((prev) =>
@@ -116,6 +83,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
+    if (href === '#') return false; // Parent items with href="#" are not active themselves
     return pathname.startsWith(href);
   };
 
@@ -124,56 +92,76 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     const isExpanded = expandedItems.includes(item.id);
     const active = isActive(item.href);
 
+    const linkClasses = [
+      styles.menuItemLink,
+      theme === 'dark' ? styles.menuItemLinkDark : styles.menuItemLinkLight,
+      active ? (theme === 'dark' ? styles.menuItemActiveDark : styles.menuItemActiveLight) : '',
+      level > 0 ? styles.subItem : '',
+    ].join(' ');
+
+    const iconClasses = `${styles.menuItemIcon} ${
+      active
+        ? (theme === 'dark' ? styles.menuItemIconActiveDark : styles.menuItemIconActiveLight)
+        : (theme === 'dark' ? styles.menuItemIconDark : styles.menuItemIconLight)
+    }`;
+
+    const badgeClasses = (badgeType?: string) => {
+      let base = styles.badgeBase;
+      if (badgeType === 'Novo') {
+        base += ` ${theme === 'dark' ? styles.badgeNovoDark : styles.badgeNovoLight}`;
+      } else if (badgeType === 'IA') {
+        base += ` ${theme === 'dark' ? styles.badgeIADark : styles.badgeIALight}`;
+      }
+      return base;
+    };
+
+    const chevronIconClass = theme === 'dark' ? styles.chevronIconDark : styles.chevronIconLight;
+
+    const menuItemContent = (
+      <motion.div
+        whileHover={{ x: level === 0 ? 4 : 2 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="w-full" // Ensure motion div takes full width for hover effect
+      >
+        <div // Changed from <a> to <div> for items with children, Link handles navigation
+          className={linkClasses}
+          onClick={(e) => {
+            if (hasChildren) {
+              e.preventDefault();
+              toggleExpanded(item.id);
+            } else {
+              onClose(); // Close sidebar on navigation for non-parent items
+            }
+          }}
+        >
+          <div className={styles.menuItemContent}>
+            <item.icon className={iconClasses} />
+            <span>{item.label}</span>
+            {item.badge && (
+              <span className={badgeClasses(item.badge)}>
+                {item.badge}
+              </span>
+            )}
+          </div>
+          {hasChildren && (
+            <motion.div animate={{ rotate: isExpanded ? 90 : 0 }} transition={{ duration: 0.2 }}>
+              <ChevronRight className={`${styles.chevronIcon} ${chevronIconClass}`} />
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
+    );
+
     return (
       <div key={item.id}>
-        <motion.div
-          whileHover={{ x: level === 0 ? 4 : 2 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        >
-          <a
-            href={hasChildren ? '#' : item.href}
-            onClick={(e) => {
-              if (hasChildren) {
-                e.preventDefault();
-                toggleExpanded(item.id);
-              } else {
-                onClose();
-              }
-            }}
-            className={`
-              flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
-              ${level > 0 ? 'ml-4 pl-8' : ''}
-              ${
-                active
-                  ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-              }
-            `}
-          >
-            <div className="flex items-center space-x-3">
-              <item.icon className={`h-5 w-5 ${active ? 'text-blue-600' : 'text-gray-500'}`} />
-              <span>{item.label}</span>
-              {item.badge && (
-                <span
-                  className={`
-                  px-2 py-0.5 text-xs font-medium rounded-full
-                  ${item.badge === 'Novo' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}
-                `}
-                >
-                  {item.badge}
-                </span>
-              )}
-            </div>
+        {hasChildren ? (
+          menuItemContent // Render div wrapper for parent items
+        ) : (
+          <Link href={item.href} passHref legacyBehavior>
+            {menuItemContent}
+          </Link>
+        )}
 
-            {hasChildren && (
-              <motion.div animate={{ rotate: isExpanded ? 90 : 0 }} transition={{ duration: 0.2 }}>
-                <ChevronRight className="h-4 w-4 text-gray-400" />
-              </motion.div>
-            )}
-          </a>
-        </motion.div>
-
-        {/* Submenu */}
         <AnimatePresence>
           {hasChildren && isExpanded && (
             <motion.div
@@ -181,9 +169,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="overflow-hidden"
+              className={styles.submenuContainer}
             >
-              <div className="mt-1 space-y-1">
+              <div className={styles.submenu}>
                 {item.children?.map((child) => renderMenuItem(child, level + 1))}
               </div>
             </motion.div>
@@ -195,69 +183,64 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={onClose} />
-      )}
-
-      {/* Sidebar */}
+      {isOpen && <div className={styles.mobileOverlay} onClick={onClose} />}
       <motion.aside
         initial={false}
-        animate={{
-          x: isOpen ? 0 : -320,
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 300,
-          damping: 30,
-        }}
-        className={`
-          fixed top-0 left-0 z-50 h-full w-80 bg-white border-r border-gray-200 shadow-lg
-          lg:relative lg:translate-x-0 lg:shadow-none
-          flex flex-col
-        `}
+        animate={{ x: isOpen ? 0 : -320 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className={`${styles.sidebarBase} ${
+          theme === 'dark' ? styles.sidebarBaseDark : styles.sidebarBaseLight
+        }`}
       >
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">BE</span>
+        <div className={`${styles.header} ${theme === 'dark' ? styles.headerDark : styles.headerLight}`}>
+          <div className={styles.logoContainer}>
+            <div className={styles.logoIconBackground}>
+              <span className={styles.logoIconText}>BE</span>
             </div>
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Bora Escrever</h2>
-              <p className="text-xs text-gray-500">Plataforma Educacional</p>
+              <h2 className={`${styles.logoTitle} ${theme === 'dark' ? styles.logoTitleDark : styles.logoTitleLight}`}>
+                Bora Escrever
+              </h2>
+              <p className={`${styles.logoSubtitle} ${theme === 'dark' ? styles.logoSubtitleDark : styles.logoSubtitleLight}`}>
+                Plataforma Educacional
+              </p>
             </div>
           </div>
         </div>
 
-        {/* User Info */}
-        <div className="p-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold">JM</span>
+        <div className={`${styles.userInfo} ${theme === 'dark' ? styles.userInfoDark : styles.userInfoLight}`}>
+          <div className={styles.userInfoContainer}>
+            <div className={styles.avatar}>
+              <span className={styles.avatarText}>JM</span>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">João Marcelo</p>
-              <p className="text-xs text-gray-500 truncate">Estudante Premium</p>
+            <div className={styles.userInfoTextContainer}>
+              <p className={`${styles.userName} ${theme === 'dark' ? styles.userNameDark : styles.userNameLight}`}>
+                João Marcelo
+              </p>
+              <p className={`${styles.userStatus} ${theme === 'dark' ? styles.userStatusDark : styles.userStatusLight}`}>
+                Estudante Premium
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Navigation Menu */}
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+        <nav className={styles.navMenu}>
           {menuItems.map((item) => renderMenuItem(item))}
         </nav>
 
-        {/* Sidebar Footer */}
-        <div className="p-4 border-t border-gray-200">
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Award className="h-5 w-5 text-white" />
+        <div className={`${styles.footer} ${theme === 'dark' ? styles.footerDark : styles.footerLight}`}>
+          <div className={`${styles.footerCard} ${theme === 'dark' ? styles.footerCardDark : styles.footerCardLight}`}>
+            <div className={styles.footerCardContent}>
+              <div className={styles.footerIconContainer}>
+                <Award className={styles.footerIcon} />
               </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">Plano Premium</p>
-                <p className="text-xs text-gray-500">Acesso completo</p>
+              <div className={styles.footerTextContainer}>
+                <p className={`${styles.footerTitle} ${theme === 'dark' ? styles.footerTitleDark : styles.footerTitleLight}`}>
+                  Plano Premium
+                </p>
+                <p className={`${styles.footerSubtitle} ${theme === 'dark' ? styles.footerSubtitleDark : styles.footerSubtitleLight}`}>
+                  Acesso completo
+                </p>
               </div>
             </div>
           </div>
