@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateMariaResponse } from '@/lib/openai';
 
+const apiKey = process.env.OPENAI_API_KEY;
+if (!apiKey) {
+  throw new Error("A variável OPENAI_API_KEY não está definida no ambiente. Por favor, tente novamente em outro momento.");
+}
 export async function POST(request: NextRequest) {
   try {
     const { message, conversationHistory } = await request.json();
@@ -30,10 +34,10 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({
-    message: 'API do Chat MarIA está funcionando!',
+    message: ' do Chat MarIA está funcionando!',
     endpoints: {
-      chat: 'POST /api/maria/chat',
-      correction: 'POST /api/maria/correction',
+      chat: 'POST //maria/chat',
+      correction: 'POST //maria/correction',
       repertoire: 'POST /api/maria/repertoire',
     },
   });
