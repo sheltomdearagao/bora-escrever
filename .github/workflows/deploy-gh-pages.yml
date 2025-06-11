@@ -1,0 +1,65 @@
+name: Deploy Next.js to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or your default branch
+
+permissions:
+  contents: write # Needed to push to gh-pages branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x' # Specify your Node.js version
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        # This assumes your build script is `next build && next export` or just `next build`
+        # if `output: 'export'` is set in next.config.js.
+        # The `next export` command is implicitly handled by `output: 'export'`.
+        run: npm run build
+        env:
+          # NEXT_PUBLIC_BASE_PATH: /your-repo-name # Uncomment if deploying to <username>.github.io/your-repo-name
+          # Add any other build-time environment variables here if needed
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          # publish_branch: gh-pages # Default is gh-pages
+          # user_name: 'github-actions[bot]' # Default
+          # user_email: 'github-actions[bot]@users.noreply.github.com' # Default
+          # commit_message: ${{ github.event.head_commit.message }} # Default
+          # cname: your.custom.domain.com # Uncomment and set if you have a custom domain
+          # If your custom domain is managed through GitHub Pages settings, CNAME file is often not needed here.
+          # However, if you want the action to create/update it, you can.
+          # For a repository like <username>/<username>.github.io, a CNAME is usually placed in the root of the source branch.
+          # For a project site deployed to gh-pages, the action can create it in the publish_dir.
+          # Given the user just set up a custom domain, they might have already configured it in repo settings.
+          # If they want the action to manage the CNAME file in the gh-pages branch:
+          # cname: ${{ vars.YOUR_CUSTOM_DOMAIN_VARIABLE_FROM_REPO_SETTINGS }} # Example using repo variable
+          # Or hardcode if preferred: cname: yourdomain.com
+          # For now, assume CNAME is handled via GitHub Pages settings or already in source repo if needed.
+          # The action will deploy the content of ./out to the root of the gh-pages branch.
+          # GitHub Pages will then serve this branch. If a custom domain is set in repo settings,
+          # it should point to this content.
+```
