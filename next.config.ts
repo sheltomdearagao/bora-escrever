@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
+  // Output mode for static export
+  output: 'export',
+
   // Otimizações experimentais
   experimental: {
     optimizePackageImports: [
@@ -23,12 +26,13 @@ const nextConfig: NextConfig = {
 
   // Configuração otimizada de imagens
   images: {
+    unoptimized: true, // Required for static export if not using a custom image loader
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [320, 640, 768, 1024, 1280, 1536, 1920, 2560],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 512],
     minimumCacheTTL: 31536000, // 1 year
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", // This CSP is for <img src> inlined SVGs, not the main site CSP
     domains: ['res.cloudinary.com', 'images.unsplash.com', 'firebasestorage.googleapis.com'],
   },
 
