@@ -63,7 +63,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Basic rate limiting and suspicious activity logging (can be expanded)
-  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || (request.geo?.ip) || 'unknown';
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
   const userAgent = request.headers.get('user-agent') || 'unknown';
 
   if (userAgent.includes('bot') && !userAgent.includes('Googlebot') && !userAgent.includes('bingbot')) {
