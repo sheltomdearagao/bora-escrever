@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Bora Escrever</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="logo">
+                    <span>BE</span>
+                    <h1>Bora Escrever</h1>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">JM</div>
+                    <div class="user-details">
+                        <span class="user-name">João Marcelo</span>
+                        <span class="user-plan">Estudante Premium</span>
+                    </div>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="active"><i class="fa-solid fa-table-columns"></i><span>Dashboard</span></a></li>
+                        <li><a href="#"><i class="fa-solid fa-pen-to-square"></i><span>Escrever Agora</span><span class="tag-novo">Novo</span></a></li>
+                        <li><a href="#"><i class="fa-solid fa-chart-line"></i><span>Meu Progresso</span></a></li>
+                        <li><a href="#"><i class="fa-solid fa-video"></i><span>Minhas Aulas</span></a></li>
+                        <li class="has-submenu">
+                            <a href="#"><i class="fa-solid fa-book-open-reader"></i><span>Estudar</span><i class="fa-solid fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li><a href="#"><span>Banco de Temas</span></a></li>
+                                <li><a href="#"><span>Repertórios</span></a></li>
+                                <li><a href="#"><span>Estrutura Textual</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="fa-solid fa-user-graduate"></i><span>Tutoria Humanizada</span></a></li>
+                        <li><a href="#"><i class="fa-solid fa-robot"></i><span>Chat com MariA</span><span class="tag-ia">IA</span></a></li>
+                        <li><a href="#"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Correção Automática</span><span class="tag-novo">Novo</span></a></li>
+                        <li><a href="#"><i class="fa-solid fa-gear"></i><span>Configurações</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="premium-card">
+                    <div class="premium-icon-wrapper"><i class="fa-solid fa-crown"></i></div>
+                    <h4>Plano Premium</h4>
+                    <p>Nosso completo</p>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-content-wrapper">
+            <header class="main-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="search" placeholder="Buscar temas, aulas, repertórios...">
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="notification-bell">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </a>
+                    <div class="header-user-menu">
+                        <div class="user-avatar">JM</div>
+                        <span>João Marcelo</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <h2>Continue seu progresso em redação</h2>
+
+                <section class="stats-cards">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-file-lines icon-bg"></i>
+                        <span class="stat-number">12</span>
+                        <p>Redações Escritas</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-file-circle-check icon-bg"></i>
+                        <span class="stat-number">8</span>
+                        <p>Correções Recebidas</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-star icon-bg"></i>
+                        <span class="stat-number">850</span>
+                        <p>Nota Média</p>
+                    </div>
+                </section>
+
+                <section class="action-grid">
+                    <a href="#" class="action-card primary-action">
+                        <i class="fa-solid fa-pen"></i>
+                        <h3>Escrever Agora</h3>
+                        <p>Começar uma nova redação</p>
+                    </a>
+                    <a href="#" class="action-card">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <h3>Tutoria Humanizada</h3>
+                        <p>Agendar sessão com tutor</p>
+                    </a>
+                    <a href="#" class="action-card">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h3>Estudar Tema</h3>
+                        <p>Explorar temas do ENEM</p>
+                    </a>
+                    <a href="#" class="action-card">
+                        <i class="fa-solid fa-sitemap"></i>
+                        <h3>Estudar Estrutura</h3>
+                        <p>Aprender estrutura textual</p>
+                    </a>
+                    <a href="#" class="action-card">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                        <h3>Estudar Repertórios</h3>
+                        <p>Banco de repertórios</p>
+                    </a>
+                    <a href="#" class="action-card">
+                        <i class="fa-solid fa-comments"></i>
+                        <h3>Conversar com a MariA</h3>
+                        <p>Chat com IA educacional</p>
+                    </a>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-columns">
+            <div class="footer-col">
+                <div class="logo">
+                    <span>BE</span>
+                    <h4>Bora Escrever</h4>
+                </div>
+                <p class="footer-description">A plataforma mais completa para preparação de redação ENEM. Correção automática com IA, feedback personalizado e muito mais.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Sobre</h4>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Como Funciona</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">LGPD</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <p><i class="fa-solid fa-envelope"></i> contato@boraescrever.com.br</p>
+                <p><i class="fa-solid fa-phone"></i> (11) 99999-9999</p>
+                <p><i class="fa-solid fa-location-dot"></i> São Paulo, SP - Brasil</p>
+                <div class="data-protection">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <strong>Dados Protegidos</strong>
+                        <span>Seus dados estão seguros conosco. Conforme LGPD.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Bora Escrever. Todos os direitos reservados.</p>
+            <p>Feito com <i class="fa-solid fa-heart"></i> para estudantes brasileiros</p>
+        </div>
+    </footer>
+
+</body>
+</html>
